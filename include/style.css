@@ -1,0 +1,255 @@
+/* Eric Meyer's Reset CSS v2.0 */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}table{border-collapse:collapse;border-spacing:0}
+
+@font-face {
+	font-family: "consolas";
+	src: url("./consolas.ttf");
+  }
+
+body {
+	background: white;
+	font-family: "consolas";
+}
+
+* {
+	font-family: "consolas";
+	font-size: 18px;
+}
+
+
+body.mode-test #message-box,
+body.mode-test #user-gui,
+body.mode-test #template-zone {display:block;}
+body.mode-test #result-zone,
+body.mode-test #to-print-mode {display:none;}
+
+body.mode-real #message-box,
+body.mode-real #user-gui {display:block;}
+body.mode-real #template-zone {display:none;}
+body.mode-real #result-zone {display:block;}
+body.mode-real #to-print-mode {display:inline-block;}
+
+body.mode-print #message-box,
+body.mode-print #user-gui,
+body.mode-print #template-zone {display:none;}
+body.mode-print #result-zone {display:block;}
+
+
+#message-box {
+	position: fixed;
+	top:0px; right:0px;
+	z-index: 1000;
+}
+#message-box.open { /*... becomes a fullscreen modal panel */	
+	width:100%; height:100%;
+	background: rgba(80, 200, 200, 0.8);	
+}	
+
+
+#message-box #icon-box {
+	position: absolute; 
+	top:15px; right:15px; width:25px; height:25px;
+	border: 2px inset cyan;
+	background: white url("msg-lvl-icons.png") 0px -25px;
+}
+#message-box.lvl_ok      #icon-box { background-position: 0px 0px; }
+#message-box.lvl_info    #icon-box { background-position: 0px -25px; }
+#message-box.lvl_warning #icon-box { background-position: 0px -50px; }
+#message-box.lvl_error   #icon-box { background-position: 0px -75px; }
+
+#message-box #unread-counter {
+	position: absolute;
+	top: -5px; right: -10px;
+	font-family: sans-serif;
+	font-size: 0.8em;
+	font-weight: bold;
+	
+	color: white;
+	background-color: red;
+	border: 1px solid white;
+	border-radius: 10px;
+	padding: 3px 5px;
+}
+
+#message-box      #trashcan-button { display: none;}
+#message-box.open #trashcan-button { display: block;
+	position: absolute; 
+	top:65px; right:15px; width:27px; height:27px;
+	background: transparent url("trashcan.png");
+	background-size: 100%;
+}
+
+#message-box      #text-box { display: none;}
+#message-box.open #text-box { display: block;
+	position: absolute;
+	top:15px; right:42px;
+	width:80%;
+	resize: vertical;  overflow-y:auto;  min-height: 100px;  max-height: 90%;
+	
+	border: 2px inset cyan;
+	background: white;
+	
+	font-family: sans-serif;
+	font-size: 1em;
+	
+}
+
+
+#message-box .message .icon-box {
+	position: static; display:inline-block;
+	width:15px; height:15px; margin-right: 0.5em;	
+	background: transparent url("msg-lvl-icons.png") 0px -15px;
+	background-size: 100%;
+}
+#message-box .message.lvl_ok      .icon-box { background-position: 0px 0px; }
+#message-box .message.lvl_info    .icon-box { background-position: 0px -15px; }
+#message-box .message.lvl_warning .icon-box { background-position: 0px -30px; }
+#message-box .message.lvl_error   .icon-box { background-position: 0px -45px; }
+
+
+#message-box .message{
+	padding: 0.5em 1em;
+}
+
+#message-box.lvl_ok      .message.lvl_ok,
+/* #message-box.lvl_info    .message.lvl_info, ...not worth noting */
+#message-box.lvl_warning .message.lvl_warning,
+#message-box.lvl_error   .message.lvl_error {
+	background: yellow;
+}
+
+
+
+
+
+
+
+#user-gui {
+	border: 10px outset #885;
+	background-color: #dda;
+	padding: 10px;
+}
+#user-gui fieldset {
+	border: 2px groove lightgrey;
+	padding: 5px 10px;
+	margin-bottom:10px;
+}
+@media (min-width: 1250px) {
+ #user-gui fieldset {
+	display: inline-block;
+	vertical-align: text-top;
+	width: 570px;
+ }
+}
+
+#user-gui fieldset legend {
+	font-size: 1.2em;
+	padding: 0px 10px;
+}
+
+#user-gui tr td {vertical-align:middle;}
+#user-gui .state-icon {
+	width:25px; height:25px;
+	background: transparent url("msg-lvl-icons.png") 0px -75px;
+}
+#user-gui .state-icon.isOk      { background-position: 0px 0px; }
+#user-gui .state-icon.isError   { background-position: 0px -75px; }
+#user-gui .state-icon.isPending { background-position: 0px -100px; }
+
+#user-gui input[type="file"] { width:350px; /* background-color:lightgrey; */}
+#user-gui input[type="number"] {width:5em; }
+#user-gui input[readonly] {background-color: lightgrey;}
+#user-gui input[type="button"]#to-print-mode {float: right;}
+#user-gui input[type="button"]#to-print-mode[disabled]       {background-color:#faa; color:grey;}
+#user-gui input[type="button"]#to-print-mode:not([disabled]) {background-color:#afa; color:black;}
+
+
+
+
+
+
+
+#printable-zone .page {
+	/* page-break-before: always; */
+	page-break-after: always;
+
+	/* ---- Marge intérieure de la page (val. par défaut) ---- */
+	padding-top: 35px;
+	padding-left: 50px;
+	width: 900px; /* note : padding-right ne change pas grand chose sur le print dans Chrome */
+	padding-bottom: 35px; /* sans impact print */
+}
+
+#printable-zone .page > .sticker {
+	position: relative; /* only to enable children positioning */
+	background-color: white;
+	
+	page-break-inside: avoid;
+	
+	/* ---- Taille d'une seule étiquette (val. par défaut) ---- */
+	width: 600px;
+	height: 200px;
+	
+	/* ---- Espace inter-étiquettes (en dessous, sur une même page) (val. par défaut) ---- */
+	margin-bottom:30px;
+}
+
+#printable-zone .page > .sticker > div {
+	position: absolute; /* 1st-level positioning in sticker expected to be absolute */
+}
+
+
+#printable-zone #template-zone {
+	background: darkgrey;
+	color: grey;
+}
+
+#printable-zone #result-zone {
+	background: yellow;
+	color: black;
+}
+body.mode-print
+ #printable-zone #result-zone {
+	background: #eee;
+	color: black;
+}
+
+#printable-zone #result-zone .page {
+	border-bottom: 1px dashed grey;
+}
+body.mode-print
+ #printable-zone #result-zone .page {
+	border: none;
+}
+
+
+#printable-zone .sticker .corner_border {
+	position: absolute;
+	width: 25%; height: 25%;
+}
+
+#printable-zone             .sticker .corner_border {visibility: hidden;}
+#printable-zone.show-corners .sticker .corner_border {visibility: visible;}
+
+#printable-zone .sticker .corner_border.topleft {
+	top: -5px; left: -5px;
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+}
+#printable-zone .sticker .corner_border.topright {
+	top: -5px; right: -5px;
+	border-top: 1px solid black;
+	border-right: 1px solid black;
+}
+#printable-zone .sticker .corner_border.bottomleft {
+	bottom: -5px; left: -5px;
+	border-bottom: 1px solid black;
+	border-left: 1px solid black;
+}
+#printable-zone .sticker .corner_border.bottomright {
+	bottom: -5px; right: -5px;
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+}
+
+

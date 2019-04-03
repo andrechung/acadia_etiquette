@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ETIQUETTE AMAZON ACADIA v0.3</title>
+		<meta charset="iso-8859-1">
+		<link rel="stylesheet" href="include/style.css">
+		<script src="include/js-libs/jquery-3.3.1.min.js"></script>		
+		<script src="include/js-libs/jquery-barcode.min.js"></script>
+		<script src="include/js-libs/papaparse.min.js"></script>
+		
+		<script src="include/script.js"></script>
+		
+		
+		<!-- ***************** MISE EN PAGE - À AJUSTER ICI (override de style.css) ******************* -->
+		<style>		
+		#printable-zone .page {
+		/* ---- Marge intérieure de la page ---- */
+			padding-top: 35px;
+			padding-left: 50px;
+			width: 900px; /* note : padding-right ne change pas grand chose sur le print dans Chrome */
+			padding-bottom: 35px; /* sans impact print */
+		}
+		
+		#printable-zone .page > .sticker {
+		/* ---- Taille d'une seule étiquette ---- */
+			width: 840px;
+			height: 570px;
+			border-radius: 20px; /* sans impact print */
+			
+			
+		/* ---- Espace inter-étiquettes (en dessous, sur une même page) ---- */
+			margin-bottom: 30px;
+			
+			
+		/* ---- Fonte de base ---- */
+			font-size: 1.0em;
+			font-family: "consolas";
+		}
+		
+
+	
+		/* ---- Mise en page interne de l'étiquette ---- */
+		/* Rappel : chaque élément est supposé être positionné en absolu, cf. style.css :
+		#printable-zone .page > .sticker {
+			position: relative;
+			...
+		#printable-zone .page > .sticker > div {
+			position: absolute;
+			...
+		*/	
+	 	
+	 	/* DEBUG style à utiliser en phase de design : #printable-zone .sticker > div { border: 1px dotted red; } */
+	 	
+	 	
+		#printable-zone .sticker .shipTo {
+			left:400px; top:35px;
+			line-height: 1.2;
+		}
+		#printable-zone .sticker .shipTo .label {}
+		#printable-zone .sticker .shipTo .line1 {}
+		#printable-zone .sticker .shipTo .line2 {}
+		#printable-zone .sticker .shipTo .line3 { font-weight: bold;}
+		#printable-zone .sticker .shipTo .line4 {}
+
+
+
+		#printable-zone .sticker /* every */ .barcode {
+			height: 80px; /* 60 + 20 lié au HRI intégré au plugin */
+		}
+		#printable-zone .sticker /* every */ .barcode-hri { 
+			position: relative; top:-40px; /* lié au HRI intégré au plugin */
+			font-family: 'Trebuchet MS', Helvetica, sans-serif;
+			font-size: 100%;
+			letter-spacing: 18px;
+			padding-left: 0px;
+		}
+
+		
+		
+		#printable-zone .sticker .asn {
+			left:365px; top:180px;
+		}
+		#printable-zone .sticker .asn .label {height:25px; font-size: 100%;  padding-left: 20px;}
+		#printable-zone .sticker .asn .barcode {/* width: ...; */}
+
+
+
+		#printable-zone .sticker .shipFrom {
+			left:35px; top:35px;
+			line-height: 1.2;
+		}
+		#printable-zone .sticker .shipFrom .label {}
+		#printable-zone .sticker .shipFrom .value {}
+		
+
+
+		#printable-zone .sticker .item_id {
+			left:445px; top:95px;
+		}
+		#printable-zone .sticker .item_id .label {font-size: 180%; font-weight: bold;}
+		#printable-zone .sticker .item_id .value {}
+		
+
+		
+		#printable-zone .sticker .item_id {
+			left:35px; top:200px;
+		}
+		#printable-zone .sticker .item_id .label {display: inline-block; font-size: 150%; font-weight: normal;}
+		#printable-zone .sticker .item_id .value {display: inline-block; padding-left: 15px;}
+
+
+
+		#printable-zone .sticker .item_count {
+			left:35px; top:240px;
+		}
+		#printable-zone .sticker .item_count .label {display: inline-block; font-size: 150%; font-weight: normal;}
+		#printable-zone .sticker .item_count .value {display: inline-block; font-size: 150%; font-weight: normal;}
+
+
+
+		#printable-zone .sticker .container_index_group {
+			left:35px; top:280px;
+		}
+		#printable-zone .sticker .container_index { display: inline-block; }				
+		#printable-zone .sticker .container_index .label {display: inline-block; font-size: 150%; font-weight: normal;}
+		#printable-zone .sticker .container_index .value {display: inline-block; font-size: 150%; font-weight: normal;}
+
+		#printable-zone .sticker .container_count { display: inline-block; }
+		#printable-zone .sticker .container_count .label {display: inline-block; font-size: 150%; font-weight: normal;}
+		#printable-zone .sticker .container_count .value {display: inline-block; font-size: 150%; font-weight: normal;}
+
+
+					
+		#printable-zone .sticker .order_id {
+			left:385px; top:280px;
+		}
+		#printable-zone .sticker .order_id .label {height:25px; /* pour align. vertic. avec .asn */}
+		#printable-zone .sticker .order_id .barcode {margin-left: -20px /* width: ...; */}
+
+
+
+		#printable-zone .sticker .container_id {
+			left:100px; top:390px;
+		}
+		#printable-zone .sticker .container_id .label { display: inline-block; height:20px; padding-left: 25px;}
+		#printable-zone .sticker .container_id .value { display: inline-block; }
+		#printable-zone .sticker .container_id .barcode { /* width: ...; */}
+
+
+
+		#printable-zone .sticker .item_desc {
+			left:45px; top:500px;
+		}
+		#printable-zone .sticker .item_desc .label { display: none; }
+		#printable-zone .sticker .item_desc .value { padding-right: 15px ; font-size: 85%; font-family: 'MS Sans Serif', Geneva, sans-serif; }
+
+
+
+		#printable-zone .sticker .pallet_number {
+			left:35px; top:130px;
+		}
+
+
+
+		#printable-zone .sticker .repartition_index_group {
+			left:43px; top:430px;
+		}
+		#printable-zone .sticker .repartition_index { display: inline-block; }				
+		#printable-zone .sticker .repartition_count { display: inline-block; }
+
+
+
+		#printable-zone .sticker .vertic_bar {
+			left:380px; top:12px;
+			height: 150px; border-left: 2px solid black;
+			
+		}		
+
+		#printable-zone .sticker .horizontal_bar {
+			left:10px; top:160px;
+			width: 810px; border-bottom: 2px solid black;
+			
+		}
+
+		</style>	
+	</head>
+
+	<body>
+	
+	<!-- *********** INTERFACE UTILISATEUR *********** -->
+	<div id="message-box">
+		<div id="text-box"></div>
+		<div id="icon-box">
+			<div id="unread-counter"></div>
+		</div>
+		<div id="trashcan-button"></div>
+	</div>
+	
+	<div id="user-gui">
+		<fieldset> <legend>Données</legend>
+		  <table>
+		  <tr>
+			<td><div class="state-icon" id="stateof-amazon-datafile"></div></td>
+			<td>Fichier A (CSV de Amazon)&nbsp;:</td>
+			<td><input id="amazon-datafile" type="file" accept=".csv, text/csv" /></td>
+		  </tr>
+		  <tr>
+			<td><div class="state-icon" id="stateof-pallet-datafile"></div></td>
+			<td>Fichier P (version CSV)&nbsp;:</td>
+			<td><input id="pallet-datafile" type="file" accept=".csv, text/csv" /></td>
+		  </tr>
+		  <tr>
+			<td><div class="state-icon" id="stateof-shipToCbb"></div></td>
+			<td>Centre Amazon destinataire&nbsp;:</td>
+			<td><select id="shipToCbb" ></select></td>
+		  </tr>
+		  <tr>
+			<td><div class="state-icon" id="stateof-asn-override"></div></td>
+			<td>ASN&nbsp:</td>
+			<td><input id="asn-override" type="text" value="ASN" size="14" maxlength="14" style="font-family:monospace;"/></td>
+		  </tr>
+		  </table>
+		</fieldset>
+		
+		<fieldset> <legend>Impression</legend>
+			Forcer "Nombre de cartons"&nbsp: <input id="container-count-override" type="number" min="0" />
+			(valeur calculée&nbsp;: <input id="container-count-original" type="number" readonly />)
+			<br>
+			
+			Afficher repères <input type="checkbox" id="showCornerBorders"/><br>
+			<br>
+			<p style="font-style:italic; font-size:0.9em">
+				Pour tout réinitialiser, rafraîchir la page (F5).
+				Attention: les numéros de palette saisis manuellement (zones roses) 
+				peuvent être perdus si vous changez les fichiers A ou P.
+			</p>
+			<input id="to-print-mode" type="button" value="&quot;Print&quot; mode"></input>
+		</fieldset>
+	</div>
+	
+	
+	
+	<!-- *********** ZONE IMPRIMABLE *********** -->	
+	<div id="printable-zone">
+		<div id="template-zone" style="position:relative;">			
+			<!-- note: les éléments de classe "template-specific" sont affichés sur le template, mais ne sont pas conservés dans le rendu final -->
+
+			<!--- CONFIG: dans l'élément [.page], la propriété "data-max-stickers" contrôle le nombre d'étiquettes par page -->
+			<div class="page" data-max-stickers="1">				
+				<div class="template-specific">
+				  <!-- exemple d'élément "template-specific" dans le template de page -->
+				  (Template)
+				</div>
+			
+				<div class="sticker">				
+					<div class="watermark template-specific" style="position:absolute; left:15px; top:100px; z-index:10; font-family:serif; font-size:8em; opacity:0.1;  color:red;  border-top:5px solid red;  border-bottom:5px solid red;"	>
+					  <!-- exemple d'élément "template-specific" dans le template d'étiquette -->
+					  specimen
+					</div>
+					<div class="shipTo">
+						<div class="label">Destinataire :</div>
+						<div class="line1">-</div>
+						<div class="line2">-</div>
+						<div class="line3">-</div>
+						<div class="line4">-</div>
+					</div>
+					<div class="asn">
+						<div class="label">ASN #:</div>
+						<div class="barcode">{||||}</div>
+						<div class="barcode-hri" style="padding-left: 20px">{par ex. *ASN14511629653*}</div>
+					</div>
+					<div class="shipFrom">
+						<div class="label">Expéditeur :</div>
+						<div class="value">ACADIA INFORMATIQUE</div>
+						<div class="value">5 rue Raoul Follereau</div>
+						<div class="value">77600 Bussy Saint Georges</div>
+					</div>
+					
+					<div class="item_id">
+						<div class="label">EAN:</div>						
+						<div class="value">{par ex. 0843591061995}</div>
+					</div>					
+					<div class="item_count">
+						<div class="label">QTY:</div>
+						<div class="value">0</div>
+					</div>
+					<div class="container_index_group">
+						<div class="container_index">
+							<div class="label">Carton #:</div>
+							<div class="value">0</div>
+						</div>
+						<div class="container_count">
+							<div class="label">sur</div>
+							<div class="value">0</div>
+						</div>
+					</div>
+					<div class="order_id">
+						<div class="label">Command N°</div>
+						<div class="barcode">||||</div>
+						<div class="barcode-hri">{par ex. *8ZJZX8PG*}</div>
+					</div>
+					<div class="container_id">
+						<div class="label">Amazon Container Code (code128)&nbsp;:</div>
+						<div class="value">{par ex. AMZNCC00001891015738}</div>
+						<div class="barcode">{||||}</div>
+						<div class="barcode-hri">{par ex. *AMZNCC00001891015738*}</div>
+					</div>
+					<div class="item_desc">
+						<div class="label">{Description}</div>
+						<div class="value">{par ex. Corsair HS50 STEREO Casque Gaming avec Micro Détachable pour PC/PS4/Xbox/Mobile - Bleu}</div>
+					</div>
+					
+					<div class="pallet_number">P<span class="template-specific">0</span></div>
+					
+					<div class="repartition_index_group">
+						<span class="repartition_index">0</span>/<span class="repartition_count">0</span>
+					</div>
+					
+					
+					<div class="vertic_bar"></div>
+					<div class="horizontal_bar"></div>
+					
+					<div class="corner_border topleft"></div>
+					<div class="corner_border topright"></div>
+					<div class="corner_border bottomleft"></div>
+					<div class="corner_border bottomright"></div>
+				</div>
+			</div>
+		</div>
+		<div id="result-zone">
+			...
+		</div>
+		
+	</div>
+	</body>
+</html>
