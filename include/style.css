@@ -170,14 +170,14 @@ body.mode-print #result-zone {display:block;}
 
 
 #printable-zone .page {
-	/* page-break-before: always; */
-	page-break-after: always;
+	page-break-before: always;
+	page-break-after: none;
 
 	/* ---- Marge intérieure de la page (val. par défaut) ---- */
-	padding-top: 35px;
-	padding-left: 50px;
+	padding-top: 0px;
+	padding-left: 00px;
 	width: 900px; /* note : padding-right ne change pas grand chose sur le print dans Chrome */
-	padding-bottom: 35px; /* sans impact print */
+	padding-bottom: 0px; /* sans impact print */
 }
 
 #printable-zone .page > .sticker {
@@ -191,7 +191,7 @@ body.mode-print #result-zone {display:block;}
 	height: 200px;
 	
 	/* ---- Espace inter-étiquettes (en dessous, sur une même page) (val. par défaut) ---- */
-	margin-bottom:30px;
+	margin-bottom:0px;
 }
 
 #printable-zone .page > .sticker > div {

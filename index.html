@@ -15,25 +15,25 @@
 		<style>		
 		#printable-zone .page {
 		/* ---- Marge intérieure de la page ---- */
-			padding-top: 35px;
-			padding-left: 50px;
+			padding-top: 30px;
+			padding-left: 30px;
 			width: 900px; /* note : padding-right ne change pas grand chose sur le print dans Chrome */
-			padding-bottom: 35px; /* sans impact print */
+			padding-bottom: 0px; /* sans impact print */
 		}
 		
 		#printable-zone .page > .sticker {
 		/* ---- Taille d'une seule étiquette ---- */
-			width: 840px;
+			width: 890px;
 			height: 570px;
 			border-radius: 20px; /* sans impact print */
 			
 			
 		/* ---- Espace inter-étiquettes (en dessous, sur une même page) ---- */
-			margin-bottom: 30px;
+			margin-bottom: 0px;
 			
 			
 		/* ---- Fonte de base ---- */
-			font-size: 1.0em;
+			font-size: 1.3em;
 			font-family: "consolas";
 		}
 		
@@ -55,6 +55,8 @@
 		#printable-zone .sticker .shipTo {
 			left:400px; top:35px;
 			line-height: 1.2;
+			width: 450px;
+
 		}
 		#printable-zone .sticker .shipTo .label {}
 		#printable-zone .sticker .shipTo .line1 {}
@@ -68,17 +70,17 @@
 			height: 80px; /* 60 + 20 lié au HRI intégré au plugin */
 		}
 		#printable-zone .sticker /* every */ .barcode-hri { 
-			position: relative; top:-40px; /* lié au HRI intégré au plugin */
+			position: relative; top:-30px; /* lié au HRI intégré au plugin */
 			font-family: 'Trebuchet MS', Helvetica, sans-serif;
 			font-size: 100%;
-			letter-spacing: 18px;
-			padding-left: 0px;
+			letter-spacing: 12px;
+			padding-left: 20px;
 		}
 
 		
 		
 		#printable-zone .sticker .asn {
-			left:365px; top:180px;
+			left:415px; top:210px;
 		}
 		#printable-zone .sticker .asn .label {height:25px; font-size: 100%;  padding-left: 20px;}
 		#printable-zone .sticker .asn .barcode {/* width: ...; */}
@@ -95,44 +97,44 @@
 
 
 		#printable-zone .sticker .item_id {
-			left:445px; top:95px;
+			left:495px; top:125px;
 		}
-		#printable-zone .sticker .item_id .label {font-size: 180%; font-weight: bold;}
+		#printable-zone .sticker .item_id .label {font-size: 100%; font-weight: bold;}
 		#printable-zone .sticker .item_id .value {}
 		
 
 		
 		#printable-zone .sticker .item_id {
-			left:35px; top:200px;
+			left:35px; top:230px;
 		}
-		#printable-zone .sticker .item_id .label {display: inline-block; font-size: 150%; font-weight: normal;}
+		#printable-zone .sticker .item_id .label {display: inline-block; font-size: 100%; font-weight: normal;}
 		#printable-zone .sticker .item_id .value {display: inline-block; padding-left: 15px;}
 
 
 
 		#printable-zone .sticker .item_count {
-			left:35px; top:240px;
+			left:35px; top:270px;
 		}
-		#printable-zone .sticker .item_count .label {display: inline-block; font-size: 150%; font-weight: normal;}
-		#printable-zone .sticker .item_count .value {display: inline-block; font-size: 150%; font-weight: normal;}
+		#printable-zone .sticker .item_count .label {display: inline-block; font-size: 100%; font-weight: normal;}
+		#printable-zone .sticker .item_count .value {display: inline-block; font-size: 100%; font-weight: normal;}
 
 
 
 		#printable-zone .sticker .container_index_group {
-			left:35px; top:280px;
+			left:35px; top:310px;
 		}
 		#printable-zone .sticker .container_index { display: inline-block; }				
-		#printable-zone .sticker .container_index .label {display: inline-block; font-size: 150%; font-weight: normal;}
-		#printable-zone .sticker .container_index .value {display: inline-block; font-size: 150%; font-weight: normal;}
+		#printable-zone .sticker .container_index .label {display: inline-block; font-size: 100%; font-weight: normal;}
+		#printable-zone .sticker .container_index .value {display: inline-block; font-size: 100%; font-weight: normal;}
 
 		#printable-zone .sticker .container_count { display: inline-block; }
-		#printable-zone .sticker .container_count .label {display: inline-block; font-size: 150%; font-weight: normal;}
-		#printable-zone .sticker .container_count .value {display: inline-block; font-size: 150%; font-weight: normal;}
+		#printable-zone .sticker .container_count .label {display: inline-block; font-size: 100%; font-weight: normal;}
+		#printable-zone .sticker .container_count .value {display: inline-block; font-size: 100%; font-weight: normal;}
 
 
 					
 		#printable-zone .sticker .order_id {
-			left:385px; top:280px;
+			left:435px; top:310px;
 		}
 		#printable-zone .sticker .order_id .label {height:25px; /* pour align. vertic. avec .asn */}
 		#printable-zone .sticker .order_id .barcode {margin-left: -20px /* width: ...; */}
@@ -140,7 +142,7 @@
 
 
 		#printable-zone .sticker .container_id {
-			left:100px; top:390px;
+			left:130px; top:420px;
 		}
 		#printable-zone .sticker .container_id .label { display: inline-block; height:20px; padding-left: 25px;}
 		#printable-zone .sticker .container_id .value { display: inline-block; }
@@ -149,21 +151,22 @@
 
 
 		#printable-zone .sticker .item_desc {
-			left:45px; top:500px;
+			left:45px; top:530px;
 		}
 		#printable-zone .sticker .item_desc .label { display: none; }
-		#printable-zone .sticker .item_desc .value { padding-right: 15px ; font-size: 85%; font-family: 'MS Sans Serif', Geneva, sans-serif; }
+		#printable-zone .sticker .item_desc .value { padding-right: 15px ; font-size: 75%; font-family: 'MS Sans Serif', Geneva, sans-serif; }
 
 
 
 		#printable-zone .sticker .pallet_number {
-			left:35px; top:130px;
+			left:35px; top:170px;
+			font-size: 80%;
 		}
 
 
 
 		#printable-zone .sticker .repartition_index_group {
-			left:43px; top:430px;
+			left:43px; top:460px;
 		}
 		#printable-zone .sticker .repartition_index { display: inline-block; }				
 		#printable-zone .sticker .repartition_count { display: inline-block; }
@@ -171,14 +174,14 @@
 
 
 		#printable-zone .sticker .vertic_bar {
-			left:380px; top:12px;
-			height: 150px; border-left: 2px solid black;
+			left:380px; top:0px;
+			height: 190px; border-left: 2px solid black;
 			
 		}		
 
 		#printable-zone .sticker .horizontal_bar {
-			left:10px; top:160px;
-			width: 810px; border-bottom: 2px solid black;
+			left:-30px; top:190px;
+			width: 950px; border-bottom: 2px solid black;
 			
 		}
 
@@ -193,6 +196,7 @@
 		<div id="icon-box">
 			<div id="unread-counter"></div>
 		</div>
+
 		<div id="trashcan-button"></div>
 	</div>
 	

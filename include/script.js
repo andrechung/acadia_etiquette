@@ -147,7 +147,7 @@ var EntryState = {
  $.fn.populateStickerBarcode = function(fieldPrefix, value) { 
 	var barcodeSettings = {
 		addQuietZone: true,
-		barWidth: "2", barHeight: 40, // TODO : rendre taille d'affichage réelle gérable par CSS ?
+		barWidth: 2, barHeight: 40, // TODO : rendre taille d'affichage réelle gérable par CSS ?
 		color: "black",
 		bgColor: "transparent",
 		showHRI: false, // HRI du plugin inutilisé, remplacé par version custom
@@ -169,7 +169,7 @@ var EntryState = {
 		var jqLabel = $( this );
 		if (pallet_number) {
 			jqLabel.find(".pallet_number").prop("contentEditable", false).css("background", "").css("min-width", "")
-			 .empty().append(pallet_number);
+			 .empty().append("P"+pallet_number);
 		} else {
 			if (jqLabel.find(".pallet_number").prop("contentEditable") != "true")
 				jqLabel.find(".pallet_number").prop("contentEditable", true).css("background", "pink").css("min-width", "1em")
@@ -498,11 +498,13 @@ function initShipToCombobox(){
 	Papa.parse(addressesUrl,{
 		download: true,
 		header: true,
+		encoding: "iso-8859-1",
 
 		/* bizarre : en mode "download", le mode "step" fait tout planter silencieusement ?!
 		...on est donc forcé d'utiliser "complete" pour charger les options */
 		complete: function(results){
 			var options = $('#shipToCbb').prop('options');
+			console.log(results.data[2]);
 			results.data.forEach(function(adress){
 				var newOption = new Option(adress.NOM);
 				newOption.address = adress; // alternative: utiliser des attributs "data-[...]"
@@ -550,6 +552,7 @@ function handleFileASelect(evt) {
 		dynamicTyping: false, // -- ... certains codes numériques ont des "leading zeroes"
 		worker: false,        // -- pour un usage en "site local", les navigateurs considéreraient que "worker : true" violerait la Same Origin Policy
 		skipEmptyLines: true, // -- (notamment pour le saut de ligne en fin de fichier)
+		encoding: "iso-8859-1",
 		
 		complete: function(results, file){
 			var containerCount = AmzContainers.extractItemRows(results.data);
@@ -597,6 +600,7 @@ function handleFilePSelect(evt) {
 		dynamicTyping: true,  // -- Pour le coup, on ignore complètement le problème des "leading zeroes", compte tenu du mode de génération de ce fichier-ci
 		worker: false,        // -- pour un usage en "site local", les navigateurs considéreraient que "worker : true" violerait la Same Origin Policy
 		skipEmptyLines: true, // -- (notamment pour le saut de ligne en fin de fichier)
+		encoding: "iso-8859-1",
 		
 		complete: function(results, file){
 			var palletRowCount = PalletContent.captureRows(results.data);
@@ -650,7 +654,7 @@ function handleASNOverride(evt) {
 	if (!overrideValue) overrideValue = "ASNxxxxxxxxxxx";
 	$(".sticker").populateStickerBarcode(".asn", overrideValue);
 	
-	EntryState.setFieldState("asn-override", /ASN.{1}/.test(overrideValue));
+	EntryState.setFieldState("asn-override", /ASN[0-9]{1}/.test(overrideValue));
 }
 
 
