@@ -15,7 +15,7 @@
 		<style>		
 		#printable-zone .page {
 		/* ---- Marge intérieure de la page ---- */
-			padding-top: 30px;
+			padding-top: 5px;
 			padding-left: 30px;
 			width: 900px; /* note : padding-right ne change pas grand chose sur le print dans Chrome */
 			padding-bottom: 0px; /* sans impact print */
@@ -23,8 +23,8 @@
 		
 		#printable-zone .page > .sticker {
 		/* ---- Taille d'une seule étiquette ---- */
-			width: 890px;
-			height: 570px;
+			width: 820px;
+			height: 540px;
 			border-radius: 20px; /* sans impact print */
 			
 			
@@ -33,7 +33,7 @@
 			
 			
 		/* ---- Fonte de base ---- */
-			font-size: 1.3em;
+			font-size: 1.1em;
 			font-family: "consolas";
 		}
 		
@@ -53,7 +53,7 @@
 	 	
 	 	
 		#printable-zone .sticker .shipTo {
-			left:400px; top:35px;
+			left:400px; top:15px;
 			line-height: 1.2;
 			width: 450px;
 
@@ -70,7 +70,7 @@
 			height: 80px; /* 60 + 20 lié au HRI intégré au plugin */
 		}
 		#printable-zone .sticker /* every */ .barcode-hri { 
-			position: relative; top:-30px; /* lié au HRI intégré au plugin */
+			position: relative; top:-35px; /* lié au HRI intégré au plugin */
 			font-family: 'Trebuchet MS', Helvetica, sans-serif;
 			font-size: 100%;
 			letter-spacing: 12px;
@@ -80,7 +80,7 @@
 		
 		
 		#printable-zone .sticker .asn {
-			left:415px; top:210px;
+			left:360px; top:190px;
 		}
 		#printable-zone .sticker .asn .label {height:25px; font-size: 100%;  padding-left: 20px;}
 		#printable-zone .sticker .asn .barcode {/* width: ...; */}
@@ -88,7 +88,7 @@
 
 
 		#printable-zone .sticker .shipFrom {
-			left:35px; top:35px;
+			left:35px; top:15px;
 			line-height: 1.2;
 		}
 		#printable-zone .sticker .shipFrom .label {}
@@ -97,7 +97,7 @@
 
 
 		#printable-zone .sticker .item_id {
-			left:495px; top:125px;
+			left:495px; top:105px;
 		}
 		#printable-zone .sticker .item_id .label {font-size: 100%; font-weight: bold;}
 		#printable-zone .sticker .item_id .value {}
@@ -105,7 +105,7 @@
 
 		
 		#printable-zone .sticker .item_id {
-			left:35px; top:230px;
+			left:35px; top:210px;
 		}
 		#printable-zone .sticker .item_id .label {display: inline-block; font-size: 100%; font-weight: normal;}
 		#printable-zone .sticker .item_id .value {display: inline-block; padding-left: 15px;}
@@ -113,7 +113,7 @@
 
 
 		#printable-zone .sticker .item_count {
-			left:35px; top:270px;
+			left:35px; top:250px;
 		}
 		#printable-zone .sticker .item_count .label {display: inline-block; font-size: 100%; font-weight: normal;}
 		#printable-zone .sticker .item_count .value {display: inline-block; font-size: 100%; font-weight: normal;}
@@ -121,7 +121,7 @@
 
 
 		#printable-zone .sticker .container_index_group {
-			left:35px; top:310px;
+			left:35px; top:290px;
 		}
 		#printable-zone .sticker .container_index { display: inline-block; }				
 		#printable-zone .sticker .container_index .label {display: inline-block; font-size: 100%; font-weight: normal;}
@@ -134,7 +134,7 @@
 
 					
 		#printable-zone .sticker .order_id {
-			left:435px; top:310px;
+			left:380px; top:290px;
 		}
 		#printable-zone .sticker .order_id .label {height:25px; /* pour align. vertic. avec .asn */}
 		#printable-zone .sticker .order_id .barcode {margin-left: -20px /* width: ...; */}
@@ -142,7 +142,7 @@
 
 
 		#printable-zone .sticker .container_id {
-			left:130px; top:420px;
+			left:130px; top:390px;
 		}
 		#printable-zone .sticker .container_id .label { display: inline-block; height:20px; padding-left: 25px;}
 		#printable-zone .sticker .container_id .value { display: inline-block; }
@@ -151,7 +151,7 @@
 
 
 		#printable-zone .sticker .item_desc {
-			left:45px; top:530px;
+			left:45px; top:490px;
 		}
 		#printable-zone .sticker .item_desc .label { display: none; }
 		#printable-zone .sticker .item_desc .value { padding-right: 15px ; font-size: 75%; font-family: 'MS Sans Serif', Geneva, sans-serif; }
@@ -159,14 +159,14 @@
 
 
 		#printable-zone .sticker .pallet_number {
-			left:35px; top:170px;
+			left:35px; top:150px;
 			font-size: 80%;
 		}
 
 
 
 		#printable-zone .sticker .repartition_index_group {
-			left:43px; top:460px;
+			left:43px; top:440px;
 		}
 		#printable-zone .sticker .repartition_index { display: inline-block; }				
 		#printable-zone .sticker .repartition_count { display: inline-block; }
@@ -175,12 +175,12 @@
 
 		#printable-zone .sticker .vertic_bar {
 			left:380px; top:0px;
-			height: 190px; border-left: 2px solid black;
+			height: 170px; border-left: 2px solid black;
 			
 		}		
 
 		#printable-zone .sticker .horizontal_bar {
-			left:-30px; top:190px;
+			left:-30px; top:170px;
 			width: 950px; border-bottom: 2px solid black;
 			
 		}
