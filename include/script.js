@@ -210,9 +210,13 @@ var AmzContainers = {
 			/* 1.a) Mapping fichier CSV */
 			var order_id     = rows[i][0]; // Numéro de commande
 			var container_id = rows[i][5]; // Numéro de suivi du carton
-			var item_id      = rows[i][1]; // UPC/EAN/ISBN
+			var item_id      = "" +rows[i][1]; // UPC/EAN/ISBN
 			var item_desc    = rows[i][4]; // Description de l'article
 			var item_count   = rows[i][6]; // Quantité totale de l'expédition
+			var item_asin    = EanList[item_id]; // Asin de l'ean
+			if (item_asin != rows[i][3]) {
+				GuiMessage.warn("Ligne " + i +" ASIN et EAN ne correspondent pas. EAN(A):" + item_id + " ASIN(A):" + rows[i][3] + " ASIN(ean-amazon):" + item_asin); 
+			}
 			if (!isNaN(item_count)) {
 				item_count = parseInt(item_count, 10);
 			} else {
@@ -244,6 +248,7 @@ var AmzContainers = {
 					item_id     : item_id   ,
 					item_desc   : item_desc ,
 					item_count  : item_count,
+					item_asin   : item_asin,
 				};
 			}			
 		}
@@ -404,8 +409,9 @@ var PalletContent = {
 	
 			/* 1) Mapping fichier CSV */
 			var pallet_number = palletCsvRow[0]; // Numéro de palette
-			var item_id       = palletCsvRow[1]; // EAN 
+			var item_id       = "" + palletCsvRow[1]; // EAN 
 			var item_count    = (match_item_count ? palletCsvRow[2] : -1); // Quantité
+			var item_asin = EanList[item_id];
 			
 			if (i==0 && isNaN(pallet_number)) continue; // header row probable : skip first
 						
@@ -421,7 +427,8 @@ var PalletContent = {
 			this._palletRows.push({
 				item_id : item_id,
 				item_count : item_count,
-				pallet_number : pallet_number
+				pallet_number : pallet_number,
+				item_asin : item_asin
 			});
 		}
 		
@@ -447,7 +454,7 @@ var PalletContent = {
 				
 				if (container_dispatch[j] >= 0) continue; // colis déjà attribué
 				
-				if ((palletRow.item_id == container.item_id) // attention : comparaisons transtypes potentielles.. et voulues !
+				if ((palletRow.item_asin == container.item_asin) // attention : comparaisons transtypes potentielles.. et voulues !
 				 && (palletRow.item_count == -1 || palletRow.item_count == container.item_count)) {
 				 	container_dispatch[j] = i;
 				 	pallet_dispatch[i] = j;
@@ -494,7 +501,7 @@ var PalletContent = {
 /* ***************************************************************** */
 
 function initShipToCombobox(){
-	var addressesUrl = "./centres-amazon.csv";
+	var addressesUrl = "./centres-amazon.csv?" + Date.now();
 	Papa.parse(addressesUrl,{
 		download: true,
 		header: true,
@@ -529,6 +536,41 @@ function initShipToCombobox(){
 		}		
 	});
 }
+
+var EanList = {};
+
+function initEANList(){
+	var addressesUrl = "./ean-amazon.csv?" + Date.now();
+	const req = new XMLHttpRequest();
+	req.onreadystatechange = function(event) {
+		// XMLHttpRequest.DONE === 4
+		if (this.readyState === XMLHttpRequest.DONE) {
+			if (this.status === 200) {
+				var ArrEanLines = req.responseText.split(/\n/);
+				var lineNb = 0;
+				ArrEanLines.forEach((line) => {
+					lineNb++;
+					if (lineNb <= 2) {
+						return;
+					}
+					let items = line.split(";");
+					for (var i =1; i < 12; i++) {
+						if (items[i] && items[i] !== "" ) {
+							EanList[""+items[i]] = items[0];
+						}
+					}
+				});
+			} else {
+				GuiMessage.info("Erreur sur le fichier ean-amazon.csv : vérfier que le fichier existe et qu'il est déposé au même endroit que index.html");
+			}
+		}
+	};
+
+	req.open('GET', addressesUrl, true); 
+	req.send(null);
+
+}
+
 
 /* handler Sélection du fichier A (généré sur le site Amazon) */
 function handleFileASelect(evt) {	
@@ -686,6 +728,7 @@ $(document).ready(function(){
 	
 	$("#shipToCbb").change(handleCbbSelect);
 	initShipToCombobox();
+	initEANList();
 	
 	$("#user-gui #asn-override").change(handleASNOverride);
 	$("#container-count-override").change(handleContainerCountOverride);
