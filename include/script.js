@@ -201,7 +201,7 @@ var AmzContainers = {
 			GuiMessage.error("Fichier A attendu avec 7 colonnes min. (seulement " + rows[0].length + " trouvés)");
 			return -1;
 		}
-		GuiMessage.info("Lignes lues dans fichier A : " + (rows.length - 1) + "  (header non-compris)"); // header non-compris			
+		GuiMessage.info("Fichier A, Lignes lues : " + (rows.length - 1) + "  (header non-compris)"); // header non-compris			
 		
 		/* 1) Groupage des lignes par carton */
 		var groupsByContainer = {}; // obj. "tableau associatif" des étiquettes, par container_id (= nombre de suivi du carton). Attention, ce dernier doit être un attribut obj JS valide !
@@ -214,13 +214,18 @@ var AmzContainers = {
 			var item_desc    = rows[i][4]; // Description de l'article
 			var item_count   = rows[i][6]; // Quantité totale de l'expédition
 			var item_asin    = EanList[item_id]; // Asin de l'ean
+			
 			if (item_asin != rows[i][3]) {
-				GuiMessage.warn("Ligne " + i +" ASIN et EAN ne correspondent pas. EAN(A):" + item_id + " ASIN(A):" + rows[i][3] + " ASIN(ean-amazon):" + item_asin); 
+				if ( item_asin == undefined) {
+					GuiMessage.warn("Fichier A, Ligne " + i +" EAN(A):" + item_id + " n'est pas trouvé dans la list ean-amazon"); 
+				} else {
+					GuiMessage.warn("Fichier A, Ligne " + i +" ASIN et EAN ne correspondent pas. EAN(A):" + item_id + " ASIN(A):" + rows[i][3] + " ASIN(ean-amazon):" + item_asin); 
+				}
 			}
 			if (!isNaN(item_count)) {
 				item_count = parseInt(item_count, 10);
 			} else {
-				GuiMessage.warn("\"Quantité\" non-numérique en ligne " + i + " (=" + item_count + "), considéré comme zéro"); 
+				GuiMessage.warn("Fichier A, Ligne " + i + "\"Quantité\" non-numérique (=" + item_count + "), considéré comme zéro"); 
 				console.log("Error : QTY (col. 6) not numerical", rows[i]);
 				item_count = 0;			
 			}
@@ -402,7 +407,7 @@ var PalletContent = {
 			GuiMessage.info("Fichier P avec au moins 3 colonnes (numéro de palette, EAN et quantité) : mode normal");
 			match_item_count = true;			
 		}
-		GuiMessage.info("Lignes lues dans fichier P : " + rows.length + " (header éventuel compris)"); // header éventuel compris
+		GuiMessage.info("Fichier P Lignes lues dans : " + rows.length + " (header éventuel compris)"); // header éventuel compris
 		
 		for (var i=0; i<rows.length; i++) {
 			var palletCsvRow = rows[i];
@@ -413,14 +418,18 @@ var PalletContent = {
 			var item_count    = (match_item_count ? palletCsvRow[2] : -1); // Quantité
 			var item_asin = EanList[item_id];
 			
+
 			if (i==0 && isNaN(pallet_number)) continue; // header row probable : skip first
-						
-			
+
 			if (!isNaN(item_count)) {
 				item_count = parseInt(item_count, 10);
 			} else {
-				GuiMessage.warn("\"Quantité\" non-numérique en ligne " + i + " (=" + item_count + ") : seul l'EAN sera utilisé sur cette ligne");
+				GuiMessage.warn("Fichier P, ligne " + i + ": \"Quantité\" non-numérique (=" + item_count + ") : seul l'EAN sera utilisé sur cette ligne");
 				item_count = -1;
+			}
+					
+			if (item_asin ==  undefined && "EAN MIX" != item_id) {
+				GuiMessage.warn("Fichier P, ligne " + i + " ean "+ item_id +" non trouvé dans ean-amazon");
 			}
 			
 			/* 2) création de ligne "palette" */
@@ -454,7 +463,7 @@ var PalletContent = {
 				
 				if (container_dispatch[j] >= 0) continue; // colis déjà attribué
 				
-				if ((palletRow.item_asin == container.item_asin) // attention : comparaisons transtypes potentielles.. et voulues !
+				if ((palletRow.item_asin == container.item_asin && !palletRow.item_asin && !container.item_asin) // attention : comparaisons transtypes potentielles.. et voulues !
 				 && (palletRow.item_count == -1 || palletRow.item_count == container.item_count)) {
 				 	container_dispatch[j] = i;
 				 	pallet_dispatch[i] = j;
@@ -469,7 +478,7 @@ var PalletContent = {
 			
 			var attributed_container_index = pallet_dispatch[i];
 			if (attributed_container_index < 0) {
-				GuiMessage.warn("La ligne "+ (i+1) +" du fichier P n'a pas été utilisée pour attribuer un numéro de palette (ean=" + palletRow.item_id 
+				GuiMessage.warn("Fichier P, Ligne "+ (i+1) +" n'a pas été utilisée pour attribuer un numéro de palette (ean=" + palletRow.item_id 
 					+ (palletRow.item_count!=-1? ", qté="+ palletRow.item_count : "") 
 					+", palette="+ palletRow.pallet_number +")");
 			}
@@ -519,9 +528,9 @@ function initShipToCombobox(){
 			});
 			
 			if (options.length == 0)
-				GuiMessage.error("Fichier vide à l'adresse : "+ addressesUrl);
+				GuiMessage.error("Fichier centre amazon vide à l'adresse : "+ addressesUrl);
 			else if (!options[0].address.NOM || !options[0].address.L1 || !options[0].address.L2 || !options[0].address.L3 || !options[0].address.L4)
-				GuiMessage.error("Fichier non-conforme à l'adresse web : "+ addressesUrl);
+				GuiMessage.error("Fichier centre amazon non-conforme à l'adresse web : "+ addressesUrl);
 			else
 				options[0].address.isDefault = true; // for validity check
 				
@@ -529,9 +538,9 @@ function initShipToCombobox(){
 		},
 		
 		error: function(error, file){
-			console.log("Erreur de chargement de la configuration", error);
-			GuiMessage.error("Erreur de configuration des centres Amazon à l'adresse : '"+ addressesUrl + "'");
-			GuiMessage.error("(Si vous utilisez cette application en mode local, il est possible que votre navigateur ne supporte pas le chargement des fichiers locaux pour des raisons de sécurité)") ;
+			console.log("Fichier centre amazon Erreur de chargement de la configuration", error);
+			GuiMessage.error("Fichier centre amazon Erreur de configuration des centres Amazon à l'adresse : '"+ addressesUrl + "'");
+			GuiMessage.error("Fichier centre amazon (Si vous utilisez cette application en mode local, il est possible que votre navigateur ne supporte pas le chargement des fichiers locaux pour des raisons de sécurité)") ;
 			// remarque : le chargement de fichier local n'est pas supporté par Chrome... mais Firefox le supporte
 		}		
 	});
@@ -561,7 +570,7 @@ function initEANList(){
 					}
 				});
 			} else {
-				GuiMessage.info("Erreur sur le fichier ean-amazon.csv : vérfier que le fichier existe et qu'il est déposé au même endroit que index.html");
+				GuiMessage.error("Fichier ean-amazon. Erreur: vérfier que le fichier existe et qu'il est déposé au même endroit que index.html");
 			}
 		}
 	};
@@ -650,7 +659,7 @@ function handleFilePSelect(evt) {
 				EntryState.setFieldState("pallet-datafile", false);
 				return;
 			}
-			GuiMessage.info("Nombre d'affectations de palette trouvées : " + palletRowCount); // égal au nombre de lignes ou infér. de 1 (pour le header)
+			GuiMessage.info("Fichier P, Nombre d'affectations de palette trouvées : " + palletRowCount); // égal au nombre de lignes ou infér. de 1 (pour le header)
 			
 			// refaire le rendu si des numéros de palette ont pu être trouvés
 			var resolvedCount = PalletContent.resolvePalletIds();
