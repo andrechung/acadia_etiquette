@@ -1,0 +1,111 @@
+<html>
+<style>
+* { margin: 0px}
+h1, h4 {color: rgb(19, 82, 27);}
+body  { background-color: cadetblue;  width: 450px; margin: 0px auto;}
+label { float: left; width: 140px; margin-right: 1em; }
+div { height: 35px }
+
+input { width: 250px}
+body { font-size: 18px}
+input[id=palettte_suivante] { background-color: lime }
+input[id=terminer] { background-color: rgb(194, 70, 107)}
+td {text-align: center;}
+th {color: darkred}
+#separateur {  height: 8px;;border-top:maroon 8px solid}
+</style>
+<body>
+<H1>PROGRAMME PALLETTE </H1>
+<br>
+
+
+<h4>SAISIE EN COURS</h4>
+<table id="resume" style="width: 450px;""">
+
+    <tr>
+      <th scope="col">Palette EN COURS</th><th scope="col">Nombre Colis dans la palette</th>
+    </tr>
+    <tr>
+      <td>1</td><td>0</td>
+    </tr>
+  </table>
+
+<form id="colis">
+  <div><label>lot</label><input id="lot" name="lot" type="number" size="3" min="0" max="1000" value="1"/></div>
+  <div><label>conditionnement</label><input id="conditionnement" name="conditionnement" type="number" min="1" max="99999999"  value="1"/></div>
+  <div><label>ean_code</label><input id="ean_code" name="ean_code" type="number" /></div>
+  
+  <div><label>&nbsp;</label><input id="palettte_suivante" type="button" onclick=onPalletteSuivante() value="PALETTE SUIVANTE"></div>
+</form>
+
+<div id="separateur"></div>
+<h4>RESUME</h4>
+<table id="resume" style="width: 450px; border: 1px solid black">
+
+  <tr>
+    <th scope="col">N° Palette</th><th scope="col">Nbre Colis</th>
+  </tr>
+  <tr>
+    <td>0</td><td>0</td>
+  </tr>
+</table>
+<br>
+<div id="separateur"></div>
+<h4>FINALISER</h4>
+<form id="palette">
+  <div><label>nom_fichier</label><input id="nom_fichier" name="nom_fichier"  type="text" value="nom_fichier" /></div>
+  <div><label>total_palette</label><input id="total_palette" name="total_palette" type="number" min="1" max="100" /></div>
+  <div><label>colis_fermes</label><input id="colis_fermes" name="colis_fermes" type="number" min="0" max="1000" value="0"/></div>
+</form>
+
+<div><label>&nbsp;</label><input id="terminer" type="button" onclick=onTerminer() value="TERMINER"></div>
+</body>
+  
+
+<script src="include/js-libs/FileSaver.js"></script>
+<script>
+
+  var data = '';
+  var numero_palette = 1;
+  var resumeTable = document.getElementById(resume);
+  var nombre_colis = 1;
+
+  window.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+    autoNext()
+    }
+  });
+
+
+  function ajouteLigne(num_palette, num_colis) {
+    var nouvelleLigne = resumeTable.insertRow();
+    var nouvellePalette = nouvelleLigne.insertCell();
+    var nouveauColis = nouvelleLigne.insertCell();
+    var paletteAjoute = document.createTextNode(num_palette);
+    var colisAjoute = document.createTextNode(num_pcolis);
+    nouvellePalette.appendChild(paletteAjoute);
+    nouveauColis.appendChild(colisAjoute);
+  }
+
+  function autoNext() {
+    let v_ean_code = document.getElementById("ean_code").value;
+    let v_lot = document.getElementById("lot").value;
+    let v_conditionnement = document.getElementById("conditionnement").value;
+    data += `${palette};${v_ean_code};${v_lot};${v_conditionnement}\n`
+    document.getElementById("colis").reset();
+    document.getElementById("colis").focus();
+    document.getElementById("nombre_colis_value").textContent = nombre_colis++;
+    document.getElementById("lot").textContent = 1;
+  }
+
+  function onPalletteSuivante() {
+    numero_palette++;
+    nombre_colis = 0;
+    document.getElementById("numero_palette_value").textContent = numero_palette;
+  }
+  function onTerminer() {
+    var blob = new Blob([data], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, "testfile1.txt");
+  }
+</script>
+</html>
