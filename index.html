@@ -16,7 +16,7 @@
 		#printable-zone .page {
 		/* ---- Marge intérieure de la page ---- */
 			padding-top: 5px;
-			padding-left: 30px;
+			padding-left: 10px;
 			width: 900px; /* note : padding-right ne change pas grand chose sur le print dans Chrome */
 			padding-bottom: 0px; /* sans impact print */
 		}
@@ -33,7 +33,7 @@
 			
 			
 		/* ---- Fonte de base ---- */
-			font-size: 2.0em;
+			font-size: 1.6em;
 			font-family: "consolas";
 		}
 		
@@ -61,7 +61,7 @@
 		#printable-zone .sticker .shipTo .label {}
 		#printable-zone .sticker .shipTo .line1 {}
 		#printable-zone .sticker .shipTo .line2 {}
-		#printable-zone .sticker .shipTo .line3 { font-weight: bold;}
+		#printable-zone .sticker .shipTo .line3 {}
 		#printable-zone .sticker .shipTo .line4 {}
 
 
@@ -88,7 +88,7 @@
 
 
 		#printable-zone .sticker .shipFrom {
-			left:35px; top:15px;
+			left:25px; top:15px;
 			line-height: 1.2;
 		}
 		#printable-zone .sticker .shipFrom .label {}
@@ -105,15 +105,15 @@
 
 		
 		#printable-zone .sticker .item_id {
-			left:35px; top:210px;
+			left:25px; top:210px; font-size: 120%;padding-bottom: 10px;
 		}
 		#printable-zone .sticker .item_id .label {display: inline-block; font-size: 100%; font-weight: normal;}
-		#printable-zone .sticker .item_id .value {display: inline-block; padding-left: 15px;}
+		#printable-zone .sticker .item_id .value {display: inline-block; padding-left: 0px;}
 
 
 
 		#printable-zone .sticker .item_count {
-			left:35px; top:250px;
+			left:25px; top:260px;font-size: 120%;
 		}
 		#printable-zone .sticker .item_count .label {display: inline-block; font-size: 100%; font-weight: normal;}
 		#printable-zone .sticker .item_count .value {display: inline-block; font-size: 100%; font-weight: normal;}
@@ -121,7 +121,7 @@
 
 
 		#printable-zone .sticker .container_index_group {
-			left:35px; top:290px;
+			left:25px; top:310px;font-size: 120%;
 		}
 		#printable-zone .sticker .container_index { display: inline-block; }				
 		#printable-zone .sticker .container_index .label {display: inline-block; font-size: 100%; font-weight: normal;}
@@ -144,14 +144,14 @@
 		#printable-zone .sticker .container_id {
 			left:130px; top:390px;
 		}
-		#printable-zone .sticker .container_id .label { display: inline-block; height:20px; padding-left: 25px;}
-		#printable-zone .sticker .container_id .value { display: inline-block; }
+		#printable-zone .sticker .container_id .label { display: inline-block; height:20px; padding-left: 25px;font-size: 70%;}
+		#printable-zone .sticker .container_id .value { display: inline-block;font-size: 80%; }
 		#printable-zone .sticker .container_id .barcode { /* width: ...; */}
 
 
 
 		#printable-zone .sticker .item_desc {
-			left:45px; top:490px;
+			left:45px; top:490px;font-size: 110%;
 		}
 		#printable-zone .sticker .item_desc .label { display: none; }
 		#printable-zone .sticker .item_desc .value { padding-right: 15px ; font-size: 75%; font-family: 'MS Sans Serif', Geneva, sans-serif; }
@@ -159,7 +159,7 @@
 
 
 		#printable-zone .sticker .pallet_number {
-			left:35px; top:150px;
+			left:25px; top:150px;
 			font-size: 80%;
 		}
 
@@ -285,7 +285,7 @@
 						<div class="value">{par ex. 0843591061995}</div>
 					</div>					
 					<div class="item_count">
-						<div class="label">QTY:</div>
+						<div class="label">QTE:</div>
 						<div class="value">0</div>
 					</div>
 					<div class="container_index_group">
@@ -299,7 +299,7 @@
 						</div>
 					</div>
 					<div class="order_id">
-						<div class="label">Command N°</div>
+						<div class="label">Commande N°</div>
 						<div class="barcode">||||</div>
 						<div class="barcode-hri">{par ex. *8ZJZX8PG*}</div>
 					</div>
