@@ -9,6 +9,7 @@ input { width: 200px}
 
 input[id=palettte_suivante] { background-color: lime; height: 50px; width: 450px}
 input[id=terminer] { background-color: rgb(194, 70, 107); height: 30px; width: 450px}
+input[id=reset] { background-color: rgb(194, 70, 107); height: 30px; width: 200px}
 td {text-align: center;}
 th, #en_cours_palette {color: darkred}
 .column {
@@ -28,6 +29,7 @@ th, #en_cours_palette {color: darkred}
 <H1>PROGRAMME PALLETTE </H1>
 <div class="row">
   <div class="column">
+      <div><input id="reset" type="button" onclick="location.reload(true)" value="RESET"></div>
     <h3>SCAN</h3>
     <table id="en_cours" style="width: 450px; background-color: lightgrey">
 
@@ -84,7 +86,7 @@ th, #en_cours_palette {color: darkred}
 <script src="include/js-libs/FileSaver.js"></script>
 <script>
 
-  var data = 'g;g;g';
+  var data = 'g;g;g\n';
   var en_cours_palette = 1;
   var en_cours_total_colis = 0;
   var final_total_colis = 0;
@@ -133,7 +135,7 @@ th, #en_cours_palette {color: darkred}
     let v_ean_mix = document.getElementById("ean_mix").value;
     let code = v_ean_mix != 0 ? "EAN MIX" : v_ean_code;
     let nb_article = v_ean_mix != 0 ? +v_ean_mix: v_lot * v_conditionnement;
-    data += `${en_cours_palette};${code};${nb_article};${v_conditionnement}\n`;
+    data += `${en_cours_palette};${code};${nb_article}\n`;
     en_cours_total_colis += v_ean_mix != 0 ? +v_ean_mix:+v_lot ;
     ajouteLigneScan(en_cours_table, en_cours_palette, nb_article, code, v_ean_mix != 0 ? +v_ean_mix:+v_lot );
     document.getElementById("total_palette").textContent = en_cours_palette;
