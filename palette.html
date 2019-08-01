@@ -2,26 +2,26 @@
 <style>
 * { margin: 0px}
 h1, h4 {color: rgb(19, 82, 27);}
-h4 { border: 1px solid black; }
-body  { background-color: cadetblue; }
-label { float: left; width: 140px; margin-right: 1em; }
-div { height: 35px }
+body  { background-color: cadetblue; font-size:25px}
+label { float: left; width: 190px; margin-right: 1em; }
+.framed { border: 1px solid black; padding: 10px; margin: 10px; width: 450px}
+input { width: 200px}
 
-input { width: 250px}
-body { font-size: 18px}
 input[id=palettte_suivante] { background-color: lime; height: 50px; width: 450px}
 input[id=terminer] { background-color: rgb(194, 70, 107); height: 30px; width: 450px}
 td {text-align: center;}
-th {color: darkred}
+th, #en_cours_palette {color: darkred}
 .column {
   float: left;
-  width: 50%;
+  width: 500px;
 }
+
 .row:after {
   content: "";
   display: table;
   clear: both;
 }
+.line { height: 35px}
 #separateur {  height: 8px;;border-top:maroon 8px solid}
 </style>
 <body>
@@ -30,53 +30,52 @@ th {color: darkred}
 
 <div class="row">
   <div class="column">
-    <h3>DETAILS</h3>
+    <h3>SCAN</h3>
     <table id="en_cours" style="width: 450px; background-color: lightgrey">
 
       <tr>
-        <th scope="col">Palette</th><th scope="col">Lot</th><th scope="col">Ean_code</th>
+        <th scope="col">Palette</th><th scope="col">ean_code</th><th scope="col">Colis</th>
       </tr>
     </table>
   </div>
   <div class="column">
-  <h4>SAISIE EN COURS</h4>
-
-  <br>
+  <div class="framed">
+  <h4>SAISIE EN COURS DE LA PALETTE N° <span id="en_cours_palette">1</span></h4>
+  
   <form id="en_cours_form">
-    <div><label>lot</label><input id="lot" name="lot" type="number" size="3" min="0" max="1000" value="1"/></div>
-    <div><label>conditionnement</label><input id="conditionnement" name="conditionnement" type="number" min="1" max="99999999"  value="1"/></div>
-    <div><label>colis_fermes</label><input id="colis_fermes" name="colis_fermes" type="number" min="0" max="1000" value="0"/></div>
-    <div><label>ean_code</label><input id="ean_code" name="ean_code" type="number" /></div>
+    <div class="line"><label>ean_mix</label><input id="ean_mix" name="ean_mix" type="number" min="0" max="1000" value="0"/></div>
+    <div class="line"><label>lot</label><input id="lot" name="lot" type="number" min="0" max="1000" value="1"/></div>
+    <div class="line"><label>conditionnement</label><input id="conditionnement" name="conditionnement" type="number" min="1" max="99999999"  value="1"/></div>
+    <div class="line"><label>ean_code</label><input id="ean_code" name="ean_code" type="number" /></div>
     <div><input id="palettte_suivante" type="button" onclick=onPalletteSuivante() value="PALETTE SUIVANTE"></div>
-    <br><br>
   </form>
+  </div>
+  <div class="framed">
 
-  <div id="separateur"></div>
   <h4>RESUME</h4>
-  <br>
 
   <table id="resume" style="width: 450px; background-color: wheat">
-    <tr>
-      <th scope="col">Numero Palette</th><th scope="col">Nombre Colis</th>
-    </tr>
+
   </table>
 
   <h5>TOTAL</h5>
   <table id="total" style="width: 450px; background-color: wheat">
+      <tr>
+          <th scope="col">Nombre Palette</th><th scope="col">Nombre Colis</th>
+        </tr>
     <tr>
       <td id="total_palette">0</td><td id="total_colis">0</td>
     </tr>
   </table>
-
-  <br>
-  <div id="separateur"></div>
+  </div>
+  <div class="framed">
   <h4>FINALISER</h4>
-  <br>
-  <form id="finaliser">
-    <div><label>nom_fichier</label><input id="nom_fichier" name="nom_fichier"  type="text" value="P" /></div>
-  </form>
 
+  <form id="finaliser">
+    <div class="line"><label>nom_fichier</label><input id="nom_fichier" name="nom_fichier"  type="text" value="P" /></div>
+  </form>
   <div><input id="terminer" type="button" onclick=onTerminer() value="TERMINER"></div>
+  </div>
   </div>
 </div>
 </body>
@@ -98,29 +97,30 @@ th {color: darkred}
     }
   });
 
+  document.getElementById("ean_code").focus()
 
   function ajouteLigne(table, num_palette, num_colis, ean_code) {
     var nouvelleLigne = table.insertRow();
     var nouvellePalette = nouvelleLigne.insertCell();
+    var nouveauEAN = nouvelleLigne.insertCell();
     var nouveauColis = nouvelleLigne.insertCell();
     var paletteAjoute = document.createTextNode(num_palette);
+    var EANAjoute = document.createTextNode(ean_code);
     var colisAjoute = document.createTextNode(num_colis);
     nouvellePalette.appendChild(paletteAjoute);
+    nouveauEAN.appendChild(EANAjoute);
     nouveauColis.appendChild(colisAjoute);
-    if (ean_code) {
-      var nouveauEAN = nouvelleLigne.insertCell();
-      var EANAjoute = document.createTextNode(ean_code);
-      nouveauEAN.appendChild(EANAjoute);
-    }
+    
+    
   }
 
   function autoNext() {
     let v_ean_code = document.getElementById("ean_code").value;
     let v_lot = document.getElementById("lot").value;
     let v_conditionnement = document.getElementById("conditionnement").value;
-    let v_colis_fermes = document.getElementById("colis_fermes").value;
-    let code = v_colis_fermes != 0 ? "COLIS_FERME" : v_ean_code;
-    let colis = v_colis_fermes != 0 ? v_colis_fermes: v_lot;
+    let v_ean_mix = document.getElementById("ean_mix").value;
+    let code = v_ean_mix != 0 ? "EAN MIX" : v_ean_code;
+    let colis = v_ean_mix != 0 ? v_ean_mix: v_lot;
     data += `${en_cours_palette};${code};${colis};${v_conditionnement}\n`;
     en_cours_total_colis += +colis;
     ajouteLigne(en_cours_table, en_cours_palette, colis, code);
@@ -133,9 +133,9 @@ th {color: darkred}
   }
 
   function onPalletteSuivante() {
-    ajouteLigne(resume_table, en_cours_palette, en_cours_total_colis);
     en_cours_palette++;
     en_cours_total_colis = 0;
+    document.getElementById("en_cours_palette").textContent = en_cours_palette;
   }
 
   function onTerminer() {
