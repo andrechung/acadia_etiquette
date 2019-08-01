@@ -215,7 +215,7 @@ body.mode-print
 }
 
 #printable-zone #result-zone .page {
-	border-bottom: 1px dashed grey;
+	border-bottom: none;
 }
 body.mode-print
  #printable-zone #result-zone .page {
