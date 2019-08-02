@@ -34,7 +34,7 @@ th, #en_cours_palette {color: darkred}
     <table id="en_cours" style="width: 450px; background-color: lightgrey">
 
       <tr>
-        <th scope="col">Palette</th><th scope="col">ean_code</th><th scope="col">Nb Article</th><th scope="col">Nb Colis</th>
+        <th scope="col">Palette</th><th scope="col">ean_code</th><th scope="col">Nb Colis</th><th scope="col">Nb Article</th>
       </tr>
     </table>
   </div>
@@ -106,8 +106,9 @@ th, #en_cours_palette {color: darkred}
     var nouvelleLigne = table.insertRow();
     var nouvellePalette = nouvelleLigne.insertCell();
     var nouveauEAN = nouvelleLigne.insertCell();
-    var nouveauArticle = nouvelleLigne.insertCell();
+    
     var nouveauColis = nouvelleLigne.insertCell();
+    var nouveauArticle = nouvelleLigne.insertCell();
     var paletteAjoute = document.createTextNode(num_palette);
     var EANAjoute = document.createTextNode(ean_code);
     var articleAjoute = document.createTextNode(num_article);
@@ -133,6 +134,11 @@ th, #en_cours_palette {color: darkred}
     let v_lot = document.getElementById("lot").value;
     let v_conditionnement = document.getElementById("conditionnement").value;
     let v_ean_mix = document.getElementById("ean_mix").value;
+    if (v_ean_code.length < 4 && v_ean_mix == 0) {
+      alert("Veuillez saisir un EAN CODE valide ou un EAN_MIX");
+      return;
+    }
+
     let code = v_ean_mix != 0 ? "EAN MIX" : v_ean_code;
     let nb_article = v_ean_mix != 0 ? +v_ean_mix: v_lot * v_conditionnement;
     data += `${en_cours_palette};${code};${nb_article}\n`;
@@ -144,6 +150,10 @@ th, #en_cours_palette {color: darkred}
   }
 
   function onPalletteSuivante() {
+    if (en_cours_total_colis == 0) {
+      alert("Pas de Colis dans la pallette en cours");
+      return;
+    }
     ajouteLigneResume(resume_table, en_cours_palette, en_cours_total_colis);
     document.getElementById("total_palette").textContent = en_cours_palette;
     final_total_colis +=  +en_cours_total_colis;
