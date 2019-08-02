@@ -40,7 +40,7 @@ th, #en_cours_palette {color: darkred}
   </div>
   <div class="column">
   <div class="framed">
-  <h4>SAISIE EN COURS DE LA PALETTE N° <span id="en_cours_palette">1</span></h4>
+  <h4>SAISIE EN COURS DE LA PALETTE Nï¿½ <span id="en_cours_palette">1</span></h4>
   
   <form id="en_cours_form">
     <div class="line"><label>ean_mix</label><input id="ean_mix" name="ean_mix" type="number" min="0" max="1000" value="0"/></div>
@@ -138,9 +138,6 @@ th, #en_cours_palette {color: darkred}
     data += `${en_cours_palette};${code};${nb_article}\n`;
     en_cours_total_colis += v_ean_mix != 0 ? +v_ean_mix:+v_lot ;
     ajouteLigneScan(en_cours_table, en_cours_palette, nb_article, code, v_ean_mix != 0 ? +v_ean_mix:+v_lot );
-    document.getElementById("total_palette").textContent = en_cours_palette;
-    final_total_colis +=  v_ean_mix != 0 ? +v_ean_mix:+v_lot;
-    document.getElementById("total_colis").textContent = final_total_colis;
     document.getElementById("en_cours_form").reset();
     document.getElementById("ean_code").focus();
  
@@ -148,6 +145,9 @@ th, #en_cours_palette {color: darkred}
 
   function onPalletteSuivante() {
     ajouteLigneResume(resume_table, en_cours_palette, en_cours_total_colis);
+    document.getElementById("total_palette").textContent = en_cours_palette;
+    final_total_colis +=  +en_cours_total_colis;
+    document.getElementById("total_colis").textContent = final_total_colis;
     en_cours_palette++;
     en_cours_total_colis = 0;
     document.getElementById("en_cours_palette").textContent = en_cours_palette;
