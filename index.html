@@ -11,10 +11,10 @@
 		<script src="include/script.js"></script>
 		
 		
-		<!-- ***************** MISE EN PAGE - ï¿½ AJUSTER ICI (override de style.css) ******************* -->
+		<!-- ***************** MISE EN PAGE - À AJUSTER ICI (override de style.css) ******************* -->
 		<style>		
 		#printable-zone .page {
-		/* ---- Marge intï¿½rieure de la page ---- */
+		/* ---- Marge intérieure de la page ---- */
 			padding-top: 5px;
 			padding-left: 10px;
 			width: 900px; /* note : padding-right ne change pas grand chose sur le print dans Chrome */
@@ -22,13 +22,13 @@
 		}
 		
 		#printable-zone .page > .sticker {
-		/* ---- Taille d'une seule ï¿½tiquette ---- */
+		/* ---- Taille d'une seule étiquette ---- */
 			width: 820px;
 			height: 540px;
 			border-radius: 20px; /* sans impact print */
 			
 			
-		/* ---- Espace inter-ï¿½tiquettes (en dessous, sur une mï¿½me page) ---- */
+		/* ---- Espace inter-étiquettes (en dessous, sur une même page) ---- */
 			margin-bottom: 0px;
 			
 			
@@ -39,8 +39,8 @@
 		
 
 	
-		/* ---- Mise en page interne de l'ï¿½tiquette ---- */
-		/* Rappel : chaque ï¿½lï¿½ment est supposï¿½ ï¿½tre positionnï¿½ en absolu, cf. style.css :
+		/* ---- Mise en page interne de l'étiquette ---- */
+		/* Rappel : chaque élément est supposé être positionné en absolu, cf. style.css :
 		#printable-zone .page > .sticker {
 			position: relative;
 			...
@@ -49,7 +49,7 @@
 			...
 		*/	
 	 	
-	 	/* DEBUG style ï¿½ utiliser en phase de design : #printable-zone .sticker > div { border: 1px dotted red; } */
+	 	/* DEBUG style à utiliser en phase de design : #printable-zone .sticker > div { border: 1px dotted red; } */
 	 	
 	 	
 		#printable-zone .sticker .shipTo {
@@ -67,10 +67,10 @@
 
 
 		#printable-zone .sticker /* every */ .barcode {
-			height: 80px; /* 60 + 20 liï¿½ au HRI intï¿½grï¿½ au plugin */
+			height: 80px; /* 60 + 20 lié au HRI intégré au plugin */
 		}
 		#printable-zone .sticker /* every */ .barcode-hri { 
-			position: relative; top:-35px; /* liï¿½ au HRI intï¿½grï¿½ au plugin */
+			position: relative; top:-35px; /* lié au HRI intégré au plugin */
 			font-family: 'Trebuchet MS', Helvetica, sans-serif;
 			font-size: 80%;
 			letter-spacing: 12px;
@@ -201,7 +201,7 @@
 	</div>
 	
 	<div id="user-gui">
-		<fieldset> <legend>Donnï¿½es</legend>
+		<fieldset> <legend>Données</legend>
 		  <table>
 		  <tr>
 			<td><div class="state-icon" id="stateof-amazon-datafile"></div></td>
@@ -228,15 +228,15 @@
 		
 		<fieldset> <legend>Impression</legend>
 			Forcer "Nombre de cartons"&nbsp: <input id="container-count-override" type="number" min="0" />
-			(valeur calculï¿½e&nbsp;: <input id="container-count-original" type="number" readonly />)
+			(valeur calculée&nbsp;: <input id="container-count-original" type="number" readonly />)
 			<br>
 			
-			Afficher repï¿½res <input type="checkbox" id="showCornerBorders"/><br>
+			Afficher repères <input type="checkbox" id="showCornerBorders"/><br>
 			<br>
 			<p style="font-style:italic; font-size:0.9em">
-				Pour tout rï¿½initialiser, rafraï¿½chir la page (F5).
-				Attention: les numï¿½ros de palette saisis manuellement (zones roses) 
-				peuvent ï¿½tre perdus si vous changez les fichiers A ou P.
+				Pour tout réinitialiser, rafraîchir la page (F5).
+				Attention: les numéros de palette saisis manuellement (zones roses) 
+				peuvent être perdus si vous changez les fichiers A ou P.
 			</p>
 			<input id="to-print-mode" type="button" value="&quot;Print&quot; mode"></input>
 		</fieldset>
@@ -247,18 +247,18 @@
 	<!-- *********** ZONE IMPRIMABLE *********** -->	
 	<div id="printable-zone">
 		<div id="template-zone" style="position:relative;">			
-			<!-- note: les ï¿½lï¿½ments de classe "template-specific" sont affichï¿½s sur le template, mais ne sont pas conservï¿½s dans le rendu final -->
+			<!-- note: les éléments de classe "template-specific" sont affichés sur le template, mais ne sont pas conservés dans le rendu final -->
 
-			<!--- CONFIG: dans l'ï¿½lï¿½ment [.page], la propriï¿½tï¿½ "data-max-stickers" contrï¿½le le nombre d'ï¿½tiquettes par page -->
+			<!--- CONFIG: dans l'élément [.page], la propriété "data-max-stickers" contrôle le nombre d'étiquettes par page -->
 			<div class="page" data-max-stickers="1">				
 				<div class="template-specific">
-				  <!-- exemple d'ï¿½lï¿½ment "template-specific" dans le template de page -->
+				  <!-- exemple d'élément "template-specific" dans le template de page -->
 				  (Template)
 				</div>
 			
 				<div class="sticker">				
 					<div class="watermark template-specific" style="position:absolute; left:15px; top:100px; z-index:10; font-family:serif; font-size:8em; opacity:0.1;  color:red;  border-top:5px solid red;  border-bottom:5px solid red;"	>
-					  <!-- exemple d'ï¿½lï¿½ment "template-specific" dans le template d'ï¿½tiquette -->
+					  <!-- exemple d'élément "template-specific" dans le template d'étiquette -->
 					  specimen
 					</div>
 					<div class="shipTo">
@@ -274,7 +274,7 @@
 						<div class="barcode-hri" style="padding-left: 20px">{par ex. *ASN14511629653*}</div>
 					</div>
 					<div class="shipFrom">
-						<div class="label">Expï¿½diteur :</div>
+						<div class="label">Expéditeur :</div>
 						<div class="value">ACADIA INFORMATIQUE</div>
 						<div class="value">5 rue Raoul Follereau</div>
 						<div class="value">77600 Bussy Saint Georges</div>
@@ -299,7 +299,7 @@
 						</div>
 					</div>
 					<div class="order_id">
-						<div class="label">Commande Nï¿½</div>
+						<div class="label">Commande N°</div>
 						<div class="barcode">||||</div>
 						<div class="barcode-hri">{par ex. *8ZJZX8PG*}</div>
 					</div>
@@ -307,11 +307,11 @@
 						<div class="label">Amazon Container Code (code128)&nbsp;:</div>
 						<div class="value">{par ex. AMZNCC00001891015738}</div>
 						<div class="barcode">{||||}</div>
-						<div style="top: -15px" class="barcode-hri">{par ex. *AMZNCC00001891015738*}</div>
+						<div class="barcode-hri">{par ex. *AMZNCC00001891015738*}</div>
 					</div>
 					<div class="item_desc">
 						<div class="label">{Description}</div>
-						<div class="value">{par ex. Corsair HS50 STEREO Casque Gaming avec Micro Dï¿½tachable pour PC/PS4/Xbox/Mobile - Bleu}</div>
+						<div class="value">{par ex. Corsair HS50 STEREO Casque Gaming avec Micro Détachable pour PC/PS4/Xbox/Mobile - Bleu}</div>
 					</div>
 					
 					<div class="pallet_number">P<span class="template-specific">0</span></div>
